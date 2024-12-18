@@ -16,7 +16,9 @@ app.use(cookieParser());
 
 
 
-
+app.get('/', (req, res) => {
+    res.send({message:'Hello World!'});
+})
 
 // app.post('/', (req, res) => {
 
@@ -43,6 +45,7 @@ app.get('/validate-token/', (req, res) => {
 
     if (token) {
       try {
+        console.log(token)
         jwt.verify(token, 'your-secret-key');
         res.json({ message: 'Token is valid!' });
       } catch (err) {
@@ -57,6 +60,8 @@ app.get('/validate-token/', (req, res) => {
 app.post('/verify-email/', (req, res) => {
 
     //  find the code in database using this email that you got from the token
+
+    console.log(req.body.code);
 
     if (req.cookies.verificationToken && req.body.code) {
       try {
