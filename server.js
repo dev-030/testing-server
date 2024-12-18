@@ -16,7 +16,9 @@ app.use(cookieParser());
 
 
 
-
+app.get('/', (req, res) => {
+    res.send({message:'Hello World!'});
+})
 
 // app.post('/', (req, res) => {
 
