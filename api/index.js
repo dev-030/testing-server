@@ -1,16 +1,19 @@
 const express = require('express');
 const cors = require('cors');
 // var jwt = require('jsonwebtoken'); 
-// const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 // const crypto = require('crypto');
 // const bodyParser = require('body-parser');
 
 const app = express();
 
+app.use(cookieParser());
 
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://edcluster.vercel.app'],
+  origin: 'https://edcluster.vercel.app',
   credentials: true, 
+  methods: ['GET','POST','PUT','DELETE'],
+  allowedHeaders: ['Content-Type','Authorization']
 }));
 
 // app.use(cookieParser());
@@ -96,10 +99,13 @@ app.get('/test', (req, res) => {
 
   console.log("I got hit 🔴");
 
-  res.cookie('test_cookie', '123450000', {
+  res.cookie('__Host-cookieName', '123450000', {
     httpOnly: true,      // not accessible from JS
     secure: true,        // only over HTTPS
-    sameSite: 'none',    // allow cross-site cookies
+    sameSite: 'none',
+    domain: '.edcluster.vercel.app', // Add this (include the dot prefix)
+    path: '/',    // allow cross-site cookies
+    maxAge: 86400000 // 24h in milliseconds
   });
  
   res.send('Cookie set!');
